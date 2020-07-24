@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+ 
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/admin-main-layout :: admin-main-fragment(  
+                                                ~{::title},
+                                                ~{:: #css-resources},
+                                                ~{:: #sidebar},
+                                                ~{:: #topbar},
+                                                ~{:: #index-main-content},  
+                                                ~{:: #index-footer},
+                                                ~{:: #js-resources}
+                                               )}">
+                                                
+	<head>
+	    <title>Page Admin Index</title>
+	    <th:block id="css-resources" th:replace="~{/fragments/admin-static-resoures :: link}" > </th:block>
+	</head>
+
+<body>
+ 
+    <div id="sidebar" th:replace="~{/fragments/admin-app-fragments :: #accordionSidebar}">
+        Sidebar of Home Page
+    </div>
+
+    <div id="topbar" th:replace="~{/fragments/admin-app-fragments :: #topbarId}">
+        Top bar
+    </div>
+ 
+    <div id="index-main-content">
+    	
+    	<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<h3 style="padding-bottom: 15px" id="titleId">DUYỆT ĐƠN HÀNG</h3>
+				</div>
+			</div>
+			
+			<form th:action="@{/admin/duyetDDH}" method="POST" th:object="${donDatHang}">
+				<div class="row" style="padding-bottom: 15px">
+					<div class="col">
+						<span class="infoText">Mã đơn hàng: </span>
+						<input type="text" th:field="*{maDDH}" class="form-control" readonly/>
+					</div>
+					<div class="col">
+						<span class="infoText">Tên khách hàng: </span>
+						<input type="text" th:field="*{khachHang.tenKH}" class="form-control" readonly/>
+					</div>
+					<div class="col">
+						<span class="infoText">Ưu đãi:</span>
+						<input type="text" th:field="*{uuDai}" class="form-control" readonly/> 
+					</div>
+					<div class="col">
+						<span class="infoText">Tổng Tiền Thanh Toán:</span> 
+						<span class="infoContent" th:text="${#numbers.formatDecimal(tongTienThanhToan,3,'POINT',0,'COMMA')} +' VNĐ'">
+						</span>
+					</div>
+				</div>
+			
+				
+				<div class="row">
+				
+					<div class="col">
+						<label for="daThanhToan" class="infoText">Tình Trạng Thanh Toán:</label>
+						<select th:field="*{daThanhToan}" class="form-control infoContent">
+	                       	<option th:value="${donDatHang.daThanhToan}" th:utext="${donDatHang.daThanhToan}"/>
+	                       	<option th:value="${!donDatHang.daThanhToan}" th:utext="${!donDatHang.daThanhToan}"/>
+	                   	</select>
+					</div>
+					<div class="col">
+						<label for="tinhTrangGiaoHang" class="infoText">Tình Trạng Giao Hàng:</label>
+						<select th:field="*{tinhTrangGiaoHang}" class="form-control infoContent">
+	                       	<option th:value="${donDatHang.tinhTrangGiaoHang}" th:utext="${donDatHang.tinhTrangGiaoHang}"/>
+	                       	<option th:value="${!donDatHang.tinhTrangGiaoHang}" th:utext="${!donDatHang.tinhTrangGiaoHang}"/>
+	                   	</select>
+					</div>
+					<div class="col">
+						<div class="form-group mb-3 infoText">
+							<label for="ngayDat" >Ngày Đặt Hàng:</label>
+							<input th:field="*{ngayDat}" class="form-control datepicker infoContent"/>
+						</div>
+					</div>
+					
+					<div class="col">
+						<div class="form-group mb-3 infoText">
+							<label for=ngayGiao>Ngày Giao Hàng:</label>
+							<input th:field="*{ngayGiao}" class="form-control datepicker infoContent"/>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+					</div>
+					<div class="col">
+						<a class="btn btn-danger btn-block text-uppercase" th:href="@{/admin/orderedList}" role="button">Back</a>
+					</div>
+					<div class="col">
+						<button type="button" id="inHoaDon" class="btn btn-primary btn-block text-uppercase" 
+										style="margin-bottom: 30px">In hóa đơn</button>
+					</div>
+					<div class="col">
+						<button type="submit" class="btn btn-success btn-block text-uppercase" style="margin-bottom: 30px">Duyệt đơn hàng</button>
+					</div>
+				</div>
+			</form>
+		
+			<div class="row">
+				<div class="col-12">
+					<h4 style="padding-bottom: 15px">Chi tiết đơn đặt hàng</h4>
+				</div>
+			</div>
+			
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th scope="col">MaCTDDH</th>
+						<th scope="col">Tên SP</th>
+						<th scope="col">Hình Ảnh</th>
+						<th scope="col">Đơn Giá</th>
+						<th scope="col">Số Lượng</th>
+						<th scope="col">Thành Tiền</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="chiTietDDH : ${chiTietDDHs}">
+						<th scope="row" th:text="${chiTietDDH.maChiTietDDH}"></th>
+						<td th:text="${chiTietDDH.tenSP}"></td>
+						<td><img th:src="@{|/HinhAnh/${chiTietDDH.sanPham.hinhAnh}|}" style="height:80px; width:80px"></td>
+						<td th:with="donGia=${chiTietDDH.donGia}" th:text="${#numbers.formatDecimal(donGia,3,'POINT',0,'COMMA')} +' VNĐ'">
+						</td>
+						<td th:text="${chiTietDDH.soLuong}"></td>
+						<td th:with="donGia=${chiTietDDH.donGia*chiTietDDH.soLuong}" 
+								th:text="${#numbers.formatDecimal(donGia,3,'POINT',0,'COMMA')} +' VNĐ'"> </td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+		
+		<style>
+			.infoText{
+				color: blue;
+			}
+			.infoContent{
+				color: green;
+			}
+		</style>
+    	
+        <div id="scrollAndModal}" th:replace="~{/fragments/admin-app-fragments :: #ScrollToTopButtonAndLogoutModal}">
+        	Scroll to Top Button And Logout Modal
+    	</div>
+    	
+    </div>
+     
+     
+    <div id="index-footer" th:replace="~{/fragments/admin-app-fragments :: #footerId}">
+        Footer
+    </div>
+    
+    <div id="js-resources" th:replace="~{/fragments/admin-static-resoures :: script}">
+        Footer
+    </div>
+    
+    	
+</body>
+</html>

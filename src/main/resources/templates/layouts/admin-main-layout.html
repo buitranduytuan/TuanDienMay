@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+    th:fragment="admin-main-fragment (title, CSS_Resources, sidebar, topbar, mainContent, footer, JS_Resources)">
+<head>
+	<meta charset="UTF-8" />
+	<title th:replace="${title}">Title</title>
+	<th:block th:replace="${CSS_Resources} ?: ~{}"></th:block>
+</head>
+<body id="page-top">
+	<div id="wrapper">
+	 
+	    <div th:replace="${sidebar} ?: ~{}">
+	        <h2>Sidebar</h2>
+	    </div>
+	    
+	    <div id="content-wrapper" class="d-flex flex-column">
+
+	      <!-- Main Content -->
+	      <div id="content">
+	      	
+		      	<div th:replace="${topbar} ?: ~{}">
+		        	<h2>Topbar</h2>
+		    	</div>
+		    	
+		    	<div th:replace="${mainContent} ?: ~{}">
+		        	<h2>Content</h2>
+		    	</div>
+	    	
+	      </div>
+	      
+	      <footer th:replace="${footer} ?: ~{}">
+	        <p>Footer</p>
+	      </footer>
+	      
+      	</div>
+	 
+	 
+	</div>
+	
+	<div th:replace="${JS_Resources} ?: ~{}">
+	</div>
+</body>
+</html>

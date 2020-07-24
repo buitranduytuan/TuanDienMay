@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+ 
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html xmlns:th="http://www.thymeleaf.org">
+	<script>
+		addEventListener("load", function () {
+			setTimeout(hideURLbar, 0);
+		}, false);
+
+		function hideURLbar() {
+			window.scrollTo(0, 1);
+		}
+	</script>
+
+<link rel="stylesheet"  th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet"  th:href="@{/css/style.css}">
+<link rel="stylesheet"  th:href="@{/css/creditly.css}">
+<link rel="stylesheet"  th:href="@{/css/easy-responsive-tabs.css}">
+<link rel="stylesheet"  th:href="@{/css/flexslider.css}">
+<link rel="stylesheet"  th:href="@{/css/fontawesome-all.css}">
+<link rel="stylesheet"  th:href="@{/css/menu.css}">
+<link rel="stylesheet"  th:href="@{/css/popuo-box.css}">
+
+
+<!-- web fonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i&amp;subset=latin-ext" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese"
+	    rel="stylesheet">
+<!-- //web fonts -->
+
+<script th:src="@{/js/jquery-2.2.3.min.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/creditly.js}"></script>
+<script th:src="@{/js/creditly2.js}"></script>
+<script th:src="@{/js/easing.js}"></script>
+<script th:src="@{/js/easyResponsiveTabs.js}"></script>
+<script th:src="@{/js/imagezoom.js}"></script>
+<script th:src="@{/js/jquery.flexslider.js}"></script>
+<script th:src="@{/js/jquery.magnific-popup.js}"></script>
+<script th:src="@{/js/move-top.js}"></script>
+<script th:src="@{/js/scroll.js}"></script>
+<script th:src="@{/js/SmoothScroll.min.js}"></script>
+
+<!-- DataTable -->
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>
+
+
+	<script>
+	    $(document).ready(function () {
+	        $('#productTable').DataTable();
+	    });
+	</script>
+
+	<!-- nav smooth scroll -->
+	<script>
+		$(document).ready(function () {
+			$(".dropdown").hover(
+				function () {
+					$('.dropdown-menu', this).stop(true, true).slideDown("fast");
+					$(this).toggleClass('open');
+				},
+				function () {
+					$('.dropdown-menu', this).stop(true, true).slideUp("fast");
+					$(this).toggleClass('open');
+				}
+			);
+		});
+	</script>
+	<!-- //nav smooth scroll -->
+
+	<!-- popup modal (for location)-->
+	<script>
+		$(document).ready(function () {
+			$('.popup-with-zoom-anim').magnificPopup({
+				type: 'inline',
+				fixedContentPos: false,
+				fixedBgPos: true,
+				overflowY: 'auto',
+				closeBtnInside: true,
+				preloader: false,
+				midClick: true,
+				removalDelay: 300,
+				mainClass: 'my-mfp-zoom-in'
+			});
+
+		});
+	</script>
+
+	
+	<script>
+		jQuery(document).ready(function ($) {
+			$(".scroll").click(function (event) {
+				event.preventDefault();
+
+				$('html,body').animate({
+					scrollTop: $(this.hash).offset().top
+				}, 1000);
+			});
+		});
+	</script>
+	
+	<script>
+		$(document).ready(function () {
+			$().UItoTop({
+				easingType: 'easeOutQuart'
+			});
+
+		});
+	</script>
+	
+	<!-- Ajax thêm sản phẩm vào giỏ hàng -->
+	<script>
+	$(document).ready(function () {
+			var elementProduct = document.getElementsByClassName('addProductToCart');
+			for (let index = 0; index < elementProduct.length; index++) {
+	         elementProduct[index].addEventListener('click', function () {
+	             var productId = this.getAttribute("id");
+	             $.ajax({
+						url: "/giohang/themgiohang/"+productId,
+						type: "GET",
+						success: function(sl){
+							$("#"+productId).val("Added "+sl);
+							$("#shopCart").load(location.href + " #shopCart");
+						}
+				})
+	         });
+	     }
+	});
+	</script>
+	
+	<!-- Update product number-->
+		<script>
+			$(document).ready(function () {
+				var productElement = document.getElementsByClassName('productElement');
+				for(let index = 0; index < productElement.length; index++){
+					const pE = productElement[index];
+					let btnUpdate = pE.getElementsByClassName('buttonUpdate');
+					
+					btnUpdate[0].addEventListener('click', function(){
+						let soLuong = pE.getElementsByClassName('numberUpdate')[0].value;
+						let maSanPham = btnUpdate[0].getAttribute('data-maSP');
+						let money = soLuong*btnUpdate[0].getAttribute('data-donGia');
+						let result= money.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 3})+ " VNĐ";
+						pE.getElementsByClassName('intoMoney')[0].innerHTML = result;
+						
+						$.ajax({
+							url: "/giohang/update",
+							type: "GET",
+							data: {
+								maSP: maSanPham,
+								number: soLuong
+							},
+							success: function(value){
+								$("#tongTien").text(value+ " VNĐ");
+								$("#shopCart").load(location.href + " #shopCart");
+							}
+						});
+					});
+				}
+			});
+		</script>
+		<!-- Update product number-->
+		
+		<!-- Delete product from cart-->
+		<script>
+			$(document).ready(function () {
+				var productElement = document.getElementsByClassName('productElement');
+				var deleteRows = document.getElementsByClassName('deleteRow');
+				for(let index = 0; index <deleteRows.length; index++){
+					deleteRows[index].addEventListener('click', function(){
+						let maSP = productElement[index].getElementsByClassName('buttonUpdate')[0].getAttribute('data-maSP');
+						productElement[index].remove();
+						$('#soSanPham').text($('#soSanPham').text()-1);
+						
+						$.ajax({
+							url: "/giohang/xoagiohang/"+maSP,
+							type: "GET",
+							success: function(value){
+								$("#tongTien").text(value+ " VNĐ");
+								$("#shopCart").load(location.href + " #shopCart");
+							}
+						});
+						
+					});
+				}
+			});
+		</script>
+		<!-- Delete product from cart-->
+</html>

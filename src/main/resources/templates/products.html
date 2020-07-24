@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+ 
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: main-fragment(  
+                                                ~{::title},
+                                                ~{:: #products-static-resources},
+                                                ~{:: #products-header},
+                                	                ~{:: #products-nav},
+                                                ~{:: #products-main-content},  
+                                                ~{:: #products-footer}
+                                               )}">
+                                                
+<head>
+    <title>Products Page</title>
+    <th:block id="products-static-resources" th:replace="~{/fragments/static-resoures}" > </th:block>
+</head>
+<body>
+ 
+    <div id="products-header" th:replace="~{/fragments/app-fragments :: #headerId}">
+        Header of Products Page
+    </div>
+     
+    <div id="products-nav" th:replace="~{/fragments/app-fragments :: #navigation}">
+         Navigation
+    </div>
+ 
+    <div id="products-main-content">
+        <div class="container">
+	        <div id="bannerProducts" th:replace="~{/fragments/app-fragments :: #demo}">
+	         
+	    	</div>
+        </div>
+	
+		<div class="ads-grid py-sm-5 py-4">
+			<div class="container py-xl-4 py-lg-2">
+				<div class="row">
+					<!-- product left -->
+					<div class="agileinfo-ads-display col-lg-9">
+						<div class="wrapper" id="divProducts" th:with="slDong=${soDong}">
+							<th:block th:each="i: ${#numbers.sequence( 0,slDong-1, 1)}">
+								<div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mb-4">				
+									
+									<div class="row">
+									<th:block th:each="j: ${#numbers.sequence( 1,3, 1)}">
+										<div class="col-md-4 product-men" th:if="${i*3+j <= soLuongSP}" th:with="sp=${listProduct[i*3+j-1]}">
+											<div class="men-pro-item simpleCart_shelfItem">
+												<div class="men-thumb-item text-center">
+													<img th:src="@{|/HinhAnh/${sp.hinhAnh}|}" alt="" style="height:180px; width:180px">
+													<div class="men-cart-pro">
+														<div class="inner-men-cart-pro">
+															<a th:href="@{|/productDetail/${sp.maSP}|}" class="link-product-add-cart">Quick View</a>
+														</div>
+													</div>
+												</div>
+												<div class="item-info-product text-center border-top mt-4">
+													<h4 class="pt-1">
+														<a th:text="${sp.tenSP}" th:href="@{|/productDetail/${sp.maSP}|}" >Tên Sản Phẩm</a>
+													</h4>
+													<div class="info-product-price my-2" th:with="giaHienTai=${sp.donGia - sp.soTienGiamGia}, giaCu=${sp.donGia}">
+														<span class="item_price" th:text="${#numbers.formatDecimal(giaHienTai,3,'POINT',0,'COMMA')}">
+														</span>
+														</br>
+														<del th:text="${#numbers.formatDecimal(giaCu,3,'POINT',0,'COMMA')}">Giá cũ</del>
+													</div>
+													<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+														<input type="submit" value="Add to cart" class="button btn addProductToCart" th:id="${sp.maSP}" >
+													</div>
+													
+												</div>
+											</div>
+										</div>
+									</th:block>
+									</div>
+								</div>
+							</th:block>
+							
+							<!-- Pagination -->
+							<th:block id="pagination_id" th:replace="~{/fragments/app-fragments::#pagination}" > </th:block>
+						</div>
+					</div>
+					<!-- //product left -->
+					
+					
+					<!-- product right -->
+					<div class="col-lg-3 mt-lg-0 mt-4 p-lg-0">
+						<div class="side-bar p-sm-4 p-3">
+							<div class="search-hotel border-bottom py-2">
+								<h3 class="agileits-sear-head mb-3">Brand</h3>
+								<form action="#" method="post">
+									<input type="search" placeholder="Search Brand..." name="search" required="">
+									<input type="submit" value=" ">
+								</form>
+								<div class="left-side py-2">
+									<ul>
+										<li>
+											<input type="checkbox" class="checked">
+											<span class="span">Samsung</span>
+										</li>
+										<li>
+											<input type="checkbox" class="checked">
+											<span class="span">Iphone</span>
+										</li>
+										<li>
+											<input type="checkbox" class="checked">
+											<span class="span">Xiaomi</span>
+										</li>
+										<li>
+											<input type="checkbox" class="checked">
+											<span class="span">VSmart</span>
+										</li>
+										<li>
+											<input type="checkbox" class="checked">
+											<span class="span">Oppo</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- ram -->
+							<div class="left-side border-bottom py-2">
+								<h3 class="agileits-sear-head mb-3">Ram</h3>
+								<ul>
+									<li>
+										<input type="checkbox" class="checked">
+										<span class="span">1 GB</span>
+									</li>
+									<li>
+										<input type="checkbox" class="checked">
+										<span class="span">2 GB</span>
+									</li>
+									<li>
+										<input type="checkbox" class="checked">
+										<span class="span">4 GB</span>
+									</li>
+									<li>
+										<input type="checkbox" class="checked">
+										<span class="span">6 GB</span>
+									</li>
+									<li>
+										<input type="checkbox" class="checked">
+										<span class="span">6 GB &amp; Above</span>
+									</li>
+								</ul>
+							</div>
+							<!-- //ram -->
+							<!-- price -->
+							<div class="range border-bottom py-2">
+								<h3 class="agileits-sear-head mb-3">Price</h3>
+								<div class="w3l-range">
+									<ul>
+										<li>
+											<a href="#">$1,000 - $5,000</a>
+										</li>
+										<li class="my-1">
+											<a href="#">$1,000 - $5,000</a>
+										</li>
+										<li>
+											<a href="#">$5,000 - $10,000</a>
+										</li>
+										<li class="my-1">
+											<a href="#">$10,000 - $20,000</a>
+										</li>
+										<li>
+											<a href="#">$20,000 $30,000</a>
+										</li>
+										<li class="mt-1">
+											<a href="#">Over $30,000</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- //price -->
+							<!-- discounts -->
+							<div class="left-side border-bottom py-2">
+								<h3 class="agileits-sear-head mb-3">Discount</h3>
+								<ul>
+									<li>
+										<input type="checkbox" class="checked">
+										<span class="span">5% or More</span>
+									</li>
+									<li>
+										<input type="checkbox" class="checked">
+										<span class="span">10% or More</span>
+									</li>
+									<li>
+										<input type="checkbox" class="checked">
+										<span class="span">20% or More</span>
+									</li>
+									<li>
+										<input type="checkbox" class="checked">
+										<span class="span">30% or More</span>
+									</li>
+									<li>
+										<input type="checkbox" class="checked">
+										<span class="span">50% or More</span>
+									</li>
+								</ul>
+							</div>
+							<!-- //discounts -->
+							
+						</div>
+						<!-- //product right -->
+					</div>
+				</div>
+			</div>
+		</div>
+        
+    </div>
+     
+     
+    <div id="products-footer" th:replace="~{/fragments/app-fragments :: #footerId}">
+        Footer
+    </div>
+     
+
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+ 
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/main-layout :: main-fragment(  
+                                                ~{::title},
+                                                ~{:: #product_detail-static-resources},
+                                                ~{:: #product_detail-header},
+                                                ~{:: #product_detail-nav},
+                                                ~{:: #product_detail-main-content},  
+                                                ~{:: #product_detail-footer}
+                                               )}">
+                                                
+<head>
+    <title>Product Detail</title>
+    <th:block id="product_detail-static-resources" th:replace="~{/fragments/static-resoures}" > </th:block>
+</head>
+<body>
+ 
+    <div id="product_detail-header" th:replace="~{/fragments/app-fragments :: #headerId}">
+        Header of Product Detail Page
+    </div>
+     
+    <div id="product_detail-nav" th:replace="~{/fragments/app-fragments :: #navigation}">
+         Nav
+    </div>
+ 
+    <div id="product_detail-main-content">
+    
+	    <div class="page-head_agile_info_w3l">
+	
+		</div>
+
+	    <div class="banner-bootom-w3-agileits py-5">
+	        <div class="container py-xl-4 py-lg-2">
+	           
+					<h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
+		                <span>[[${sp.loaiSanPham.tenLoai.toUpperCase()}]]</span>
+		                <span>[[${sp.nhaSanXuat.tenNSX.toUpperCase()}]]</span>
+	            	</h3> 
+	
+	
+	            <div class="row">
+	                <div class="col-lg-5 col-md-8 single-right-left ">
+	                    <div class="grid images_3_of_2">
+	                        <div class="flexslider">
+	                            <ul class="slides">
+	                                <li data-thumb="${productImage}/${sp.hinhAnh}" data-thumb-alt="" class="flex-active-slide" style="width: 437px; margin-right: 0px; float: left; display: block;">
+	                                    <div class="thumb-image">
+	                                        <img th:src="@{|/HinhAnh/${sp.hinhAnh}|}" data-imagezoom="true" class="img-fluid" alt="" draggable="false">
+	                                    </div>
+	                                </li>
+	
+	                                <li data-thumb="@{/images/si2.jpg}">
+	                                    <div class="thumb-image">
+	                                        <img th:src="@{|/HinhAnh/${sp.hinhAnh}|}" data-imagezoom="true" class="img-fluid" alt="">
+	                                    </div>
+	                                </li>
+	                                
+	                                <li data-thumb="@{/images/si3.jpg}">
+	                                    <div class="thumb-image">
+	                                        <img th:src="@{|/HinhAnh/${sp.hinhAnh}|}" data-imagezoom="true" class="img-fluid" alt="">
+	                                    </div>
+	                                </li>
+	                            </ul>
+	                            <div class="clearfix"></div>
+	                        </div>
+	                    </div>
+	                </div>
+	                
+	                
+	                <div class="col-lg-7 single-right-left simpleCart_shelfItem">
+	                    <h3 class="mb-3">[[${sp.tenSP}]]</h3>
+	                    <p class="mb-3" th:with="giaHienTai=${sp.donGia - sp.soTienGiamGia}, giaCu=${sp.donGia}">
+	                        <span class="item_price" th:text="${#numbers.formatDecimal(giaHienTai,3,'POINT',0,'COMMA')} + ' VNĐ'">
+							</span>
+	                        <del class="mx-2 font-weight-light" th:text="${#numbers.formatDecimal(giaCu,3,'POINT',0,'COMMA')} + ' VNĐ'">
+	                        </del>
+	                        <label>Free delivery</label>
+	                    </p>
+	                    <div class="single-infoagile">
+	                        <ul>
+	                            <li class="mb-3">
+	                                Cash on Delivery Eligible.
+	                            </li>
+	                            <li class="mb-3">
+	                                Shipping Speed to Delivery.
+	                            </li>
+	                            <li class="mb-3">
+	                                EMIs from $655/month.
+	                            </li>
+	                            <li class="mb-3">
+	                                Bank OfferExtra 5% off* with Axis Bank Buzz Credit CardT&C
+	                            </li>
+	                        </ul>
+	                    </div>
+	                    <div class="product-single-w3l">
+	                        <p class="my-3">
+	                            <i class="far fa-hand-point-right mr-2"></i>
+	                            <label>1 Year</label>Manufacturer Warranty
+	                        </p>
+	                        <ul>
+	                            <li class="mb-1">
+	                                3 GB RAM | 16 GB ROM | Expandable Upto 256 GB
+	                            </li>
+	                            <li class="mb-1">
+	                                5.5 inch Full HD Display
+	                            </li>
+	                            <li class="mb-1">
+	                                13MP Rear Camera | 8MP Front Camera
+	                            </li>
+	                            <li class="mb-1">
+	                                3300 mAh Battery
+	                            </li>
+	                            <li class="mb-1">
+	                                Exynos 7870 Octa Core 1.6GHz Processor
+	                            </li>
+	                        </ul>
+	                        <p class="my-sm-4 my-3">
+	                            <i class="fas fa-retweet mr-3"></i>Net banking & Credit/ Debit/ ATM card
+	                        </p>
+	                    </div>
+	                    <div class="occasion-cart">
+	                        <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+	                             <input type="submit" name="submit" value="Add to cart" class="button addProductToCart" th:id="${sp.maSP}">
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	
+	
+	            <div class="single-infoagile" >
+	                <ul>
+	                    <li class="mb-3">
+	                        [[${sp.moTa}]]
+	
+	                    </li>
+	                </ul>
+	            </div>
+	        </div>
+	    </div>
+	
+    </div>
+     
+     
+    <div id="product_detail-footer" th:replace="~{/fragments/app-fragments :: #footerId}">
+        Footer
+    </div>
+     
+     
+</body>
+</html>

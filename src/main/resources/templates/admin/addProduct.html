@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+ 
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/admin-main-layout :: admin-main-fragment(  
+                                                ~{::title},
+                                                ~{:: #css-resources},
+                                                ~{:: #sidebar},
+                                                ~{:: #topbar},
+                                                ~{:: #index-main-content},  
+                                                ~{:: #index-footer},
+                                                ~{:: #js-resources}
+                                               )}">
+                                                
+	<head>
+	    <title>Page Admin Index</title>
+	    <th:block id="css-resources" th:replace="~{/fragments/admin-static-resoures :: link}" > </th:block>
+	</head>
+
+<body>
+ 
+    <div id="sidebar" th:replace="~{/fragments/admin-app-fragments :: #accordionSidebar}">
+        Sidebar of Home Page
+    </div>
+
+    <div id="topbar" th:replace="~{/fragments/admin-app-fragments :: #topbarId}">
+        Top bar
+    </div>
+ 
+    <div id="index-main-content">
+    	
+   		<div class="container-fluid">
+   				<form th:action="@{/admin/addProductAction}" method="POST" th:object="${sanPham}">
+					<div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+						<div>
+							<div class="row">
+								<div class="col-12">
+									<h2>Add Product</h2>
+									<th:block th:if="${check != null}">
+										<p th:if="${check}" style="color: #1fed0a; font-size: 20px">Add product success!</p>
+										<p th:if="${!check}">Add product fail!</p>
+									</th:block>
+										
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-xl-7 col-lg-7 col-md-12">
+								
+									<div class="form-group mb-3">
+										<label for="tenSP">Product Name </label>
+										<input type="text" th:field="*{tenSP}" class="form-control validate"/>
+									</div>
+									
+									<div class="form-group mb-3">
+										<label for="loaiSanPham.maLoaiSP">Loại Sản Phẩm </label>
+										<select th:field="*{loaiSanPham.maLoaiSP}" class="form-control">
+					                         <option th:each="loaiSP : ${listLoaiSP}" th:value="${loaiSP.maLoaiSP}" th:utext="${loaiSP.tenLoai}"/>
+					                    </select>
+									</div>
+									
+									<div class="row">
+										<div class="form-group mb-3 col-xs-12 col-sm-6">
+											<label for="nhaSanXuat.maNSX">Nhà Sản Xuất </label>
+											<select th:field="*{nhaSanXuat.maNSX}" class="form-control">
+					                         	<option th:each="nsx : ${listNSX}" th:value="${nsx.maNSX}" th:utext="${nsx.tenNSX}"/>
+					                    	</select>
+										</div>
+										
+										<div class="form-group mb-3 col-xs-12 col-sm-6">
+											<label for="nhaCungCap.maNCC">Nhà Cung Cấp </label>
+											<select th:field="*{nhaCungCap.maNCC}" class="form-control">
+					                         	<option th:each="ncc : ${listNCC}" th:value="${ncc.maNCC}" th:utext="${ncc.tenNCC}"/>
+					                    	</select>
+										</div>
+									</div>
+									
+									<div class="row">
+										<div class="form-group mb-3 col-xs-12 col-sm-6">
+											<label for="donGia">Đơn Giá</label>
+											<input type="text" th:field="*{donGia}" class="form-control validate"/>
+										</div>
+										
+										<div class="form-group mb-3 col-xs-12 col-sm-6">
+											<label for="soTienGiamGia">Số Tiền Giảm Giá</label>
+											<input type="text" th:field="*{soTienGiamGia}" class="form-control validate"/>
+										</div>
+									</div>
+									
+									<div class="form-group mb-3">
+										<label for="ngapCapNhat">Ngày Cập Nhật</label>
+										<input type="text" th:field="*{ngapCapNhat}" class="form-control datepicker" th:value="${ngapCapNhat}"/>
+										<input type="text" class="form-control" id="alternate" readonly style="color: blue">
+									</div>
+									
+									<input th:field="*{hinhAnh}" type="text" style="display: none"/>
+									
+								</div>
+
+								<div class="col-xl-5 col-lg-5 col-md-12 mx-auto mb-4">
+									<div>
+										<img th:src="@{/admin/img/imageProduct.png}" alt="Product image" class="img-fluid d-block mx-auto">
+									</div>
+									
+									<div class="custom-file mt-3 mb-3">
+										<input id="fileInput" type="file" style="display: none;">
+										<input type="button" class="btn btn-primary btn-block mx-auto" value="INSERT IMAGE NOW"
+											onclick="document.getElementById('fileInput').click();">
+									</div>
+									
+									<div class="form-group mb-3">
+										<label for="cauHinh">Cấu Hình</label>
+										<textarea th:field="*{cauHinh}" class="form-control validate" rows="3" >
+										</textarea>
+									</div>
+									
+								</div>
+								<div class="col-12">
+									<div class="form-group mb-3">
+										<label for="moTa">Mô tả</label>
+										<textarea th:field="*{moTa}" class="form-control validate" rows="5" >
+										</textarea>
+									</div>
+									<button type="submit" class="btn btn-primary btn-block text-uppercase" style="margin-bottom: 30px">Add Product Now</button>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+				</form>
+			</div>
+    	
+        <div id="scrollAndModal}" th:replace="~{/fragments/admin-app-fragments :: #ScrollToTopButtonAndLogoutModal}">
+        	Scroll to Top Button And Logout Modal
+    	</div>
+        
+    </div>
+     
+     
+    <div id="index-footer" th:replace="~{/fragments/admin-app-fragments :: #footerId}">
+        Footer
+    </div>
+    
+    <div id="js-resources" th:replace="~{/fragments/admin-static-resoures :: script}">
+        Footer
+    </div>
+     
+     
+</body>
+</html>

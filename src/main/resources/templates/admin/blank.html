@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+ 
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/admin-main-layout :: admin-main-fragment(  
+                                                ~{::title},
+                                                ~{:: #css-resources},
+                                                ~{:: #sidebar},
+                                                ~{:: #topbar},
+                                                ~{:: #index-main-content},  
+                                                ~{:: #index-footer},
+                                                ~{:: #js-resources}
+                                               )}">
+                                                
+	<head>
+	    <title>Page Admin Index</title>
+	    <th:block id="css-resources" th:replace="~{/fragments/admin-static-resoures :: link}" > </th:block>
+	</head>
+
+<body>
+ 
+    <div id="sidebar" th:replace="~{/fragments/admin-app-fragments :: #accordionSidebar}">
+        Sidebar of Home Page
+    </div>
+
+    <div id="topbar" th:replace="~{/fragments/admin-app-fragments :: #topbarId}">
+        Top bar
+    </div>
+ 
+    <div id="index-main-content">
+    	
+    	
+        <div id="scrollAndModal}" th:replace="~{/fragments/admin-app-fragments :: #ScrollToTopButtonAndLogoutModal}">
+        	Scroll to Top Button And Logout Modal
+    	</div>
+        
+    </div>
+     
+     
+    <div id="index-footer" th:replace="~{/fragments/admin-app-fragments :: #footerId}">
+        Footer
+    </div>
+    
+    <div id="js-resources" th:replace="~{/fragments/admin-static-resoures :: script}">
+        Footer
+    </div>
+     
+     
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+ 
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/admin-main-layout :: admin-main-fragment(  
+                                                ~{::title},
+                                                ~{:: #css-resources},
+                                                ~{:: #sidebar},
+                                                ~{:: #topbar},
+                                                ~{:: #index-main-content},  
+                                                ~{:: #index-footer},
+                                                ~{:: #js-resources}
+                                               )}">
+                                                
+	<head>
+	    <title>Page Admin Index</title>
+	    <th:block id="css-resources" th:replace="~{/fragments/admin-static-resoures :: link}" > </th:block>
+	</head>
+
+<body>
+ 
+    <div id="sidebar" th:replace="~{/fragments/admin-app-fragments :: #accordionSidebar}">
+        Sidebar of Home Page
+    </div>
+
+    <div id="topbar" th:replace="~{/fragments/admin-app-fragments :: #topbarId}">
+        Top bar
+    </div>
+ 
+    <div id="index-main-content">
+    	
+    	<div class="container-fluid">
+				
+			<!-- DataTales Products -->
+	        <div class="card shadow mb-4">
+	            <div class="card-header py-3">
+	              <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+	            </div>
+	            <div class="card-body">
+	              <div class="table-responsive">
+	                <table class="table table-bordered dataTable" width="100%" cellspacing="0">
+	                  <thead>
+	                    <tr>
+	                      <th>Tên SP</th>
+	                      <th>Hình Ảnh</th>
+	                      <th>Loại SP</th>
+	                      <th>Đơn Giá</th>
+	                      <th>NSX</th>
+	                      <th>Options</th>
+	                    </tr>
+	                  </thead>
+	                  <tfoot>
+	                    <tr>
+	                      <th>Tên SP</th>
+	                      <th>Hình Ảnh</th>
+	                      <th>Loại SP</th>
+	                      <th>Đơn Giá</th>
+	                      <th>NSX</th>
+	                      <th>Options</th>
+	                    </tr>
+	                  </tfoot>
+	                  <tbody th:if="${listAdminProduct != null}">
+		                  	<tr th:each="sp : ${listAdminProduct}">
+		                      <td th:text="${sp.tenSP}"></td>
+		                      <td><img th:src="@{|/HinhAnh/${sp.hinhAnh}|}" style="height:80px; width:80px"></td>
+		                      <td th:text="${sp.loaiSanPham.tenLoai}"></td>
+		                      <td th:with="donGia=${sp.donGia}" th:text="${#numbers.formatDecimal(donGia,3,'POINT',0,'COMMA')}"></td>
+		                      <td th:text="${sp.nhaSanXuat.tenNSX}"></td>
+		                      <td>
+			                      <div style="padding: 0 10px">
+				                      <a th:href="@{/}"><i class="fas fa-info-circle" style="color: blue"></i></a>
+				                      <a th:href="@{|/admin/deleteProduct/${sp.maSP}|}"><i class="fas fa-trash-alt" style="color: red; padding: 0 10px"></i></a>
+				                      <a th:href="@{|/admin/editProduct?maSP=${sp.maSP}|}"><i class="far fa-edit" style="color: gray"></i></a>
+			                      </div>
+		                      	
+							  </td>
+		                    </tr>
+	                  </tbody>
+	                </table>
+	              </div>
+	            </div>
+	        </div>
+			
+			</div>
+    	
+        <div id="scrollAndModal}" th:replace="~{/fragments/admin-app-fragments :: #ScrollToTopButtonAndLogoutModal}">
+        	Scroll to Top Button And Logout Modal
+    	</div>
+        
+    </div>
+     
+     
+    <div id="index-footer" th:replace="~{/fragments/admin-app-fragments :: #footerId}">
+        Footer
+    </div>
+    
+    <div id="js-resources" th:replace="~{/fragments/admin-static-resoures :: script}">
+        Footer
+    </div>
+     
+     
+</body>
+</html>

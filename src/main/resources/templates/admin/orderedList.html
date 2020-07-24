@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+ 
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/admin-main-layout :: admin-main-fragment(  
+                                                ~{::title},
+                                                ~{:: #css-resources},
+                                                ~{:: #sidebar},
+                                                ~{:: #topbar},
+                                                ~{:: #index-main-content},  
+                                                ~{:: #index-footer},
+                                                ~{:: #js-resources}
+                                               )}">
+                                                
+	<head>
+	    <title>Page Admin Index</title>
+	    <th:block id="css-resources" th:replace="~{/fragments/admin-static-resoures :: link}" > </th:block>
+	</head>
+
+<body>
+ 
+    <div id="sidebar" th:replace="~{/fragments/admin-app-fragments :: #accordionSidebar}">
+        Sidebar of Home Page
+    </div>
+
+    <div id="topbar" th:replace="~{/fragments/admin-app-fragments :: #topbarId}">
+        Top bar
+    </div>
+ 
+    <div id="index-main-content">
+    	
+    	<div class="container-fluid">
+
+			<div class="container">
+				<h2>Order Management</h2>
+				<br>
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="nav-item"><a class="nav-link active"
+						data-toggle="tab" href="#home">Chưa Thanh Toán</a></li>
+					<li class="nav-item"><a class="nav-link" data-toggle="tab"
+						href="#menu1">Đã Thanh Toán & Chưa Giao</a></li>
+					<li class="nav-item"><a class="nav-link" data-toggle="tab"
+						href="#menu2">Đã Thanh Toán & Đã Giao</a></li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div id="home" class="container tab-pane active">
+						<br>
+						<div class="card shadow mb-4">
+				            <div class="card-header py-3">
+				              <h6 class="m-0 font-weight-bold text-primary">Chưa Thanh Toán</h6>
+				            </div>
+				            <div class="card-body">
+				              <div class="table-responsive">
+				                <table class="table table-bordered dataTable" width="100%" cellspacing="0">
+				                  <thead>
+				                    <tr>
+				                      <th>Mã ĐĐH</th>
+				                      <th>Tên KH</th>
+				                      <th>Ngày Đặt</th>
+				                      <th>Ngày Giao</th>
+				                      <th>Thanh Toán</th>
+				                      <th>Giao Hàng</th>
+				                      <th>Ưu Đãi</th>
+				                      <th>Duyệt Đơn Hàng</th>
+				                    </tr>
+				                  </thead>
+				                  <tfoot>
+				                    <tr>
+				                      <th>Mã ĐĐH</th>
+				                      <th>Tên KH</th>
+				                      <th>Ngày Đặt</th>
+				                      <th>Ngày Giao</th>
+				                      <th>Thanh Toán</th>
+				                      <th>Giao Hàng</th>
+				                      <th>Ưu Đãi</th>
+				                      <th>Duyệt Đơn Hàng</th>
+				                    </tr>
+				                  </tfoot>
+				                  <tbody>
+			                  		<th:block th:if="${ChuaThanhToan != null}">
+					                  	<tr th:each="ddhCTT : ${ChuaThanhToan}">
+						                      <td th:text="${ddhCTT.maDDH}"></td>
+						                      <td th:text="${ddhCTT.khachHang.tenKH}"></td>
+						                      <td th:text="${ddhCTT.ngayDat}"></td>
+						                      <td th:text="${ddhCTT.ngayGiao}"></td>
+						                      <td><i class="fas fa-times" style="color: red"></i></td>
+						                      <td><i class="fas fa-times" style="color: red"></i></td>
+						                      <td th:text="${ddhCTT.uuDai}"></td>
+						                      <td>
+								              	<a th:href="@{|/admin/duyetDonDatHang/${ddhCTT.maDDH}|}">Duyệt Đơn Hàng</a>
+											  </td>
+					                    </tr>
+				                   </th:block>
+				                  </tbody>
+				                </table>
+				              </div>
+				            </div>
+				        </div>
+					</div>
+					<div id="menu1" class="container tab-pane fade">
+						<br>
+						<div class="card shadow mb-4">
+				            <div class="card-header py-3">
+				              <h6 class="m-0 font-weight-bold text-primary">Đã Thanh Toán & Chưa Giao</h6>
+				            </div>
+				            <div class="card-body">
+				              <div class="table-responsive">
+				                <table class="table table-bordered dataTable" width="100%" cellspacing="0">
+				                  <thead>
+				                    <tr>
+				                      <th>Mã ĐĐH</th>
+				                      <th>Tên KH</th>
+				                      <th>Ngày Đặt</th>
+				                      <th>Ngày Giao</th>
+				                      <th>Thanh Toán</th>
+				                      <th>Giao Hàng</th>
+				                      <th>Ưu Đãi</th>
+				                      <th>Duyệt Đơn Hàng</th>
+				                    </tr>
+				                  </thead>
+				                  <tfoot>
+				                    <tr>
+				                      <th>Mã ĐĐH</th>
+				                      <th>Tên KH</th>
+				                      <th>Ngày Đặt</th>
+				                      <th>Ngày Giao</th>
+				                      <th>Thanh Toán</th>
+				                      <th>Giao Hàng</th>
+				                      <th>Ưu Đãi</th>
+				                      <th>Duyệt Đơn Hàng</th>
+				                    </tr>
+				                  </tfoot>
+				                  <tbody>
+				                  	<th:block th:if="${DaThanhToanChuaGiao != null}">
+					                  	<tr th:each="ddhDTTCG : ${DaThanhToanChuaGiao}">
+						                      <td th:text="${ddhDTTCG.maDDH}"></td>
+						                      <td th:text="${ddhDTTCG.khachHang.tenKH}"></td>
+						                      <td th:text="${ddhDTTCG.ngayDat}"></td>
+						                      <td th:text="${ddhDTTCG.ngayGiao}"></td>
+						                      <td><i class="far fa-check-circle" style="color: #00e600"></i></td>
+						                      <td><i class="fas fa-times" style="color: red"></i></td>
+						                      <td th:text="${ddhDTTCG.uuDai}"></td>
+						                      <td>
+								              	<a th:href="@{|/admin/duyetDonDatHang/${ddhDTTCG.maDDH}|}">Duyệt Đơn Hàng</a>
+											  </td>
+					                    </tr>
+				                   </th:block>
+				                  </tbody>
+				                </table>
+				              </div>
+				            </div>
+				        </div>
+					</div>
+					<div id="menu2" class="container tab-pane fade">
+						<br>
+						<div class="card shadow mb-4">
+				            <div class="card-header py-3">
+				              <h6 class="m-0 font-weight-bold text-primary">Đã Thanh Toán & Đã Giao</h6>
+				            </div>
+				            <div class="card-body">
+				              <div class="table-responsive">
+				                <table class="table table-bordered dataTable" width="100%" cellspacing="0">
+				                  <thead>
+				                    <tr>
+				                      <th>Mã ĐĐH</th>
+				                      <th>Tên KH</th>
+				                      <th>Ngày Đặt</th>
+				                      <th>Ngày Giao</th>
+				                      <th>Thanh Toán</th>
+				                      <th>Giao Hàng</th>
+				                      <th>Ưu Đãi</th>
+				                      <th>Duyệt Đơn Hàng</th>
+				                    </tr>
+				                  </thead>
+				                  <tfoot>
+				                    <tr>
+				                      <th>Mã ĐĐH</th>
+				                      <th>Tên KH</th>
+				                      <th>Ngày Đặt</th>
+				                      <th>Ngày Giao</th>
+				                      <th>Thanh Toán</th>
+				                      <th>Giao Hàng</th>
+				                      <th>Ưu Đãi</th>
+				                      <th>Duyệt Đơn Hàng</th>
+				                    </tr>
+				                  </tfoot>
+				                  <tbody>
+					                  	<th:block th:if="${DaThanhToanDaGiao != null}">
+						                  	<tr th:each="ddhDTTDG : ${DaThanhToanDaGiao}">
+							                      <td th:text="${ddhDTTDG.maDDH}"></td>
+							                      <td th:text="${ddhDTTDG.khachHang.tenKH}"></td>
+							                      <td th:text="${ddhDTTDG.ngayDat}"></td>
+							                      <td th:text="${ddhDTTDG.ngayGiao}"></td>
+							                      <td><i class="far fa-check-circle" style="color: #00e600"></i></td>
+							                      <td><i class="far fa-check-circle" style="color: #00e600"></i></td>
+							                      <td th:text="${ddhDTTDG.uuDai}"></td>
+							                      <td>
+									              	<a th:href="@{|/admin/duyetDonDatHang/${ddhDTTDG.maDDH}|}">Duyệt Đơn Hàng</a>
+												  </td>
+						                    </tr>
+					                   </th:block>
+				                  </tbody>
+				                </table>
+				              </div>
+				            </div>
+				        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+    	
+        <div id="scrollAndModal}" th:replace="~{/fragments/admin-app-fragments :: #ScrollToTopButtonAndLogoutModal}">
+        	Scroll to Top Button And Logout Modal
+    	</div>
+        
+    </div>
+     
+     
+    <div id="index-footer" th:replace="~{/fragments/admin-app-fragments :: #footerId}">
+        Footer
+    </div>
+    
+    <div id="js-resources" th:replace="~{/fragments/admin-static-resoures :: script}">
+        Footer
+    </div>
+     
+     
+</body>
+</html>

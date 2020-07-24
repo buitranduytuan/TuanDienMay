@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+ 
+<!--  main-fragment (title, otherStaticResources, header, nav, mainContent, footer)  -->
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layouts/main-layout :: main-fragment(  
+                                                ~{::title},
+                                                ~{:: #ctgh-static-resources},
+                                                ~{:: #ctgh-header},
+                               	                ~{:: #ctgh-nav},
+                                                ~{:: #ctgh-main-content},  
+                                                ~{:: #ctgh-footer}
+                                               )}">
+                                                
+<head>
+    <title>Products Page</title>
+    <th:block id="ctgh-static-resources" th:replace="~{/fragments/static-resoures}" > </th:block>
+</head>
+<body>
+ 
+    <div id="ctgh-header" th:replace="~{/fragments/app-fragments :: #headerId}">
+        Header of Products Page
+    </div>
+     
+    <div id="ctgh-nav" th:replace="~{/fragments/app-fragments :: #navigation}">
+         Navigation
+    </div>
+ 
+    <div id="ctgh-main-content">
+    
+	    <div class="privacy py-sm-5 py-4">
+			<div class="container py-xl-4 py-lg-2">
+			
+				<div class="checkout-right">
+				<h4 class="mb-sm-4 mb-3" style="color: green">[[${msg}]]</h4>
+				<h4 class="mb-sm-4 mb-3" th:if="${session.order == null}">Your shopping cart empty </h4>
+		
+				<th:block th:if="${session.order != null}">
+				
+					<h4 class="mb-sm-4 mb-3" >Your shopping cart contains:
+						<span id="soSanPham">[[${session.order.orderItems.size()}]]</span>
+					</h4>
+					
+					<div class="table-responsive">
+						<table class="timetable_sub">
+							<thead>
+									<th>No.</th>
+									<th style="width: 35%">Product Name</th>
+									<th style="width: 25%">Image</th>
+									<th>Quality</th>
+									<th>Price</th>
+									<th>Delete</th>
+							</thead>
+							<tbody>
+								<th:block th:each="orderItem, state : ${session.order.orderItems}">
+									<tr class="rem productElement" th:with="donGia=${orderItem.sanPham.donGia}, maSP = ${orderItem.sanPham.maSP},
+																		thanhTien=${orderItem.sanPham.donGia*orderItem.number}">
+										<td class="invert">[[${state.count}]]</td>
+										<td class="invert">[[${orderItem.sanPham.tenSP}]]</td>
+										<td class="invert-image">
+											<a th:href="@{|/productDetail/${orderItem.sanPham.maSP}|}">
+												<img th:src="@{|/HinhAnh/${orderItem.sanPham.hinhAnh}|}" alt=" " class="img-responsive" >
+											</a>
+										</td>
+										<td class="invert">
+											<input type="number" min = 1 th:value="${orderItem.number}" class="numberUpdate" style="width: 60px">
+											<button class="btn btn-primary buttonUpdate" type="submit" th:attr="data-donGia = ${donGia}, data-maSP = ${maSP}">Update</button>
+										</td>
+										
+										<td class="invert intoMoney" th:text="${#numbers.formatDecimal(thanhTien,3,'POINT',0,'COMMA')} +' VNĐ'">
+										</td>
+										
+										<td class="invert">
+											<div class="rem">
+												<div class="deleteRow"> </div>
+											</div>
+										</td>
+									</tr>
+								</th:block>
+								
+								<tr>
+									<td colspan="3" style="border: none">
+									<td colspan="1" style="color: green">Total Money</td>
+									<td colspan="2" id="tongTien"style="color: red" 
+																	th:text="${tongTien}+' VNĐ'">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<th:block sec:authorize="isAuthenticated()" th:with="username = ${#authentication.name}">
+						<a th:href="@{/DatHang}" class="btn btn-success active" role="button">Xin mời [[${username}]] đặt hàng</a>
+					</th:block>
+				
+					<th:block sec:authorize="!isAuthenticated()">
+						<button class="btn btn-danger" id="btnMuaNgay">Xác nhận thông tin mua hàng</button>
+						
+						<a th:href="@{/login}" class="btn btn-success active" role="button">Đăng nhập để mua</a>
+					
+						<div class="checkout-left" style="display: none" id="ThongTinKhachHang">
+							<div class="address_form_agile mt-sm-5 mt-4">
+								<form th:action="@{/DatHang}" method="POST" class="creditly-card-form agileinfo_form">
+									<div class="creditly-wrapper wthree, w3_agileits_wrapper">
+										<div class="information-wrapper">
+											<div class="first-row">
+												<div class="controls form-group">
+													<input class="billing-address-name form-control" type="text" name="tenKH" placeholder="Full Name" required>
+												</div>
+												<div class="w3_agileits_card_number_grids">
+													<div class="w3_agileits_card_number_grid_left form-group">
+														<div class="controls">
+															<input type="text" class="form-control" placeholder="Mobile Number" name="soDienThoai" required>
+														</div>
+													</div>
+													<div class="w3_agileits_card_number_grid_right form-group">
+														<div class="controls">
+															<input type="text" class="form-control" placeholder="Email" name="email" required>
+														</div>
+													</div>
+												</div>
+												<div class="controls form-group">
+													<input type="text" class="form-control" placeholder="Address" name="diaChi" required>
+												</div>
+											</div>
+											<button class="submit check_out btn">Xác nhận mua hàng</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</th:block>
+					
+				</th:block>
+				</div>
+			</div>
+		</div>
+	
+			
+		<script>
+			$(document).ready(function () {
+				$('#btnMuaNgay').on('click', function(){
+					/* $('#ThongTinKhachHang').css('display','block'); */
+					$('#ThongTinKhachHang').toggle('display');
+				});
+			});
+		</script>
+	    </div>
+     
+    <div id="ctgh-footer" th:replace="~{/fragments/app-fragments :: #footerId}">
+        Footer
+    </div>
+     
+     
+</body>
+</html>
