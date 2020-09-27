@@ -15,13 +15,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import tuanbtd.com.DTO.OrderDTO;
+import tuanbtd.com.DTO.OrderItemDTO;
 import tuanbtd.com.entity.ChiTietDonDatHang;
 import tuanbtd.com.entity.DonDatHang;
 import tuanbtd.com.entity.KhachHang;
 import tuanbtd.com.entity.SanPham;
 import tuanbtd.com.entity.ThanhVien;
-import tuanbtd.com.model.OrderDTO;
-import tuanbtd.com.model.OrderItemDTO;
 import tuanbtd.com.service.DatHangService;
 import tuanbtd.com.service.KhachHangService;
 import tuanbtd.com.service.ThanhVienService;

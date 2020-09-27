@@ -5,7 +5,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import tuanbtd.com.model.ThanhVienFrom;
+import tuanbtd.com.DTO.ThanhVienForm;
 
 public class ThanhVienValidator implements Validator {
 
@@ -13,12 +13,12 @@ public class ThanhVienValidator implements Validator {
     
     @Override
     public boolean supports(Class<?> clazz) {
-        return ThanhVienFrom.class.isAssignableFrom(clazz);
+        return ThanhVienForm.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        ThanhVienFrom tvForm = (ThanhVienFrom) target;
+        ThanhVienForm tvForm = (ThanhVienForm) target;
         if(tvForm.getUsername().length()==0 ||tvForm.getUsername()==null) {
             errors.rejectValue("username", "field.username");
         }

@@ -18,7 +18,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 import tuanbtd.com.validator.ThanhVienValidator;
@@ -32,7 +31,7 @@ public class TuanDmSpringBootApplication {
 
     @Autowired
     private Environment env;
-    
+
     @Autowired
     private MessageSource messageSource;
 
@@ -60,7 +59,7 @@ public class TuanDmSpringBootApplication {
         return dataSource;
     }
 
-    @Autowired
+    // Configuration sessionFactory for Hibernate
     @Bean(name = "sessionFactory")
     public SessionFactory getSessionFactory(DataSource dataSource) throws Exception {
         Properties properties = new Properties();
@@ -84,21 +83,12 @@ public class TuanDmSpringBootApplication {
         return sf;
     }
 
-    @Autowired
-    @Bean(name = "transactionManager")
-    public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory) {
-        HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
-
-        return transactionManager;
-    }
-
-    // tạo spring bean cho việc gửi email
+    // Create Spring bean cho việc gửi email
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
-
         mailSender.setUsername(messageSource.getMessage("myEmail.link", null, null));
         mailSender.setPassword(messageSource.getMessage("myEmail.pass", null, null));
 
@@ -111,7 +101,8 @@ public class TuanDmSpringBootApplication {
         return mailSender;
     }
 
-    //Có 1 cách khác để tạo spring Bean MessageSource: config trong file applicaiton.properties
+    // Có 1 cách khác để tạo spring Bean MessageSource: config trong file
+    // applicaiton.properties
 //    @Bean
 //    public MessageSource messageSource() {
 //        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();

@@ -2,8 +2,8 @@ package tuanbtd.com.service;
 
 import java.util.List;
 
+import tuanbtd.com.DTO.DanhMucSanPhamDTO;
 import tuanbtd.com.entity.SanPham;
-import tuanbtd.com.model.DanhMucSanPhamDTO;
 
 public interface SanPhamService {
    

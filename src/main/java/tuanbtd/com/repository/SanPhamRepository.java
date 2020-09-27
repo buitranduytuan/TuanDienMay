@@ -14,8 +14,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import tuanbtd.com.DTO.DanhMucSanPhamDTO;
 import tuanbtd.com.entity.SanPham;
-import tuanbtd.com.model.DanhMucSanPhamDTO;
 
 @Repository
 public class SanPhamRepository {

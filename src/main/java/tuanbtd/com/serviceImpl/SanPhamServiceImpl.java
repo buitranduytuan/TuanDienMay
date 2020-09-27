@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import tuanbtd.com.DTO.DanhMucSanPhamDTO;
 import tuanbtd.com.entity.SanPham;
-import tuanbtd.com.model.DanhMucSanPhamDTO;
 import tuanbtd.com.repository.SanPhamRepository;
 import tuanbtd.com.service.SanPhamService;
 

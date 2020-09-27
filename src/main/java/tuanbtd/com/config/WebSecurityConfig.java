@@ -47,16 +47,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // Các trang không yêu cầu login
         http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
 
-        http.authorizeRequests().antMatchers("/user_info").access("hasRole('ROLE_MEMBER')").antMatchers("/admin/*")
-                .access("hasRole('ROLE_ADMIN')").and().formLogin().loginPage("/login").usernameParameter("username")
-                .passwordParameter("password").defaultSuccessUrl("/").failureUrl("/login?error").and().logout()
-                .logoutUrl("/logout").logoutSuccessUrl("/").and().exceptionHandling().accessDeniedPage("/403");
+        http.authorizeRequests()
+                .antMatchers("/user_info").access("hasRole('ROLE_MEMBER')")
+                .antMatchers("/admin/*").access("hasRole('ROLE_ADMIN')").and()
+                .formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password")
+                .defaultSuccessUrl("/").failureUrl("/login?error").and()
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/").and()
+                .exceptionHandling().accessDeniedPage("/403");
 
 //        bất kỳ role nào trong danh sách có thể vào các đường url sau
 //        http.authorizeRequests().antMatchers("/admin/orderList", "/admin/order", "/admin/accountInfo")//
 //                .access("hasAnyRole('ROLE_EMPLOYEE', 'ROLE_MANAGER')");
 // 
-
     }
 
     @Bean

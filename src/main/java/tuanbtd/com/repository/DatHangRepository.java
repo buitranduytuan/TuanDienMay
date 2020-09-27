@@ -69,7 +69,6 @@ public class DatHangRepository {
         }
 
         return ddh;
-
     }
 
     public List<ChiTietDonDatHang> getChiTietDDHByMaDHH(int maDDH) {
@@ -127,7 +126,6 @@ public class DatHangRepository {
         }
 
         return listOrder;
-
     }
 
     public List<DonDatHang> getDonHangDaThanhToanChuaGiao() {
@@ -148,7 +146,6 @@ public class DatHangRepository {
         }
 
         return listOrder;
-
     }
 
     public List<DonDatHang> getDonHangDaThanhToanDaGiao() {
@@ -169,6 +166,5 @@ public class DatHangRepository {
         }
 
         return listOrder;
-
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import tuanbtd.com.model.DanhMucSanPhamDTO;
+import tuanbtd.com.DTO.DanhMucSanPhamDTO;
 import tuanbtd.com.service.SanPhamService;
 
 @Controller

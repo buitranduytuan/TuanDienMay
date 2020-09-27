@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import tuanbtd.com.DTO.ForgotPasswordForm;
+import tuanbtd.com.DTO.ThanhVienForm;
 import tuanbtd.com.entity.Role;
 import tuanbtd.com.entity.ThanhVien;
-import tuanbtd.com.model.ForgotPasswordForm;
-import tuanbtd.com.model.ThanhVienFrom;
 import tuanbtd.com.service.RoleService;
 import tuanbtd.com.service.ThanhVienService;
 import tuanbtd.com.serviceImpl.UserDetailsServiceImpl;
@@ -65,12 +65,12 @@ public class ThanhVienController {
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String registerTVGetMethod(Model model) {
-        model.addAttribute("thanhVien", new ThanhVienFrom());
+        model.addAttribute("thanhVien", new ThanhVienForm());
         return REGISTER;
     }
 
     @RequestMapping(value = "/register-action", method = RequestMethod.POST)
-    public String registerThanhVien(@ModelAttribute("thanhVien") ThanhVienFrom thanhVien, BindingResult bindingResult,
+    public String registerThanhVien(@ModelAttribute("thanhVien") ThanhVienForm thanhVien, BindingResult bindingResult,
             Model model) {
         thanhVienValidator.validate(thanhVien, bindingResult);
         if (bindingResult.hasErrors()) {

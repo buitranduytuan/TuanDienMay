@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import tuanbtd.com.DTO.OrderDTO;
+import tuanbtd.com.DTO.OrderItemDTO;
 import tuanbtd.com.entity.SanPham;
-import tuanbtd.com.model.OrderDTO;
-import tuanbtd.com.model.OrderItemDTO;
 import tuanbtd.com.service.SanPhamService;
 
 @Controller
